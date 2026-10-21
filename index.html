@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0a0a;color:#fff;font-family:Arial;display:flex;flex-direction:column;height:100vh}
 .header{padding:15px;background:#000;border-bottom:1px solid #222;display:flex;flex-direction:column;align-items:center}
-.header img{height:90px}
+.header img{height:90px;object-fit:contain}
 .header p{font-size:11px;letter-spacing:4px;color:#666;margin-top:5px}
 #chat{flex:1;overflow-y:auto;padding:20px;padding-bottom:100px}
 .msg{max-width:85%;padding:14px 16px;border-radius:18px;margin:10px 0;line-height:1.6;font-size:15px;white-space:pre-wrap}
@@ -21,18 +21,18 @@ body{background:#0a0a0a;color:#fff;font-family:Arial;display:flex;flex-direction
 </style>
 </head>
 <body>
-<div class="header"><img src="logo.png"><p>OFFICIALVIN AI</p></div>
-<div id="chat"><div class="msg ai"><img src="logo.png"><div>Karibu Boss! Mimi ni officialvinAI 🔥<br><br>Niulize chochote!</div></div></div>
-<div id="box"><input id="q" placeholder="Andika swali..." onkeypress="if(event.key==='Enter')send()"><button id="btn" onclick="send()">TUMA</button></div>
+<div class="header"><img src="./logo.png"><p>OFFICIALVIN AI</p></div>
+<div id="chat"><div class="msg ai"><img src="./logo.png"><div>Welcome Boss! I am officialvinAI 🔥<br>Ask me anything in any language!</div></div></div>
+<div id="box"><input id="q" placeholder="Ask anything..." onkeypress="if(event.key==='Enter')send()"><button id="btn" onclick="send()">TUMA</button></div>
 <script>
 async function send(){
  let input=document.getElementById('q'); let q=input.value.trim(); if(!q) return;
  let chat=document.getElementById('chat'); chat.innerHTML+=`<div class="msg user">${q}</div>`; input.value='';
- let id='a'+Date.now(); chat.innerHTML+=`<div class="msg ai" id="${id}"><img src="logo.png"><div>⏳ officialvinAI inafikiria...</div></div>`; chat.scrollTop=chat.scrollHeight;
+ let id='a'+Date.now(); chat.innerHTML+=`<div class="msg ai" id="${id}"><img src="./logo.png"><div>⏳ Thinking...</div></div>`; chat.scrollTop=chat.scrollHeight;
  try{
-  let res=await fetch(`https://text.pollinations.ai/${encodeURIComponent(q)}?model=openai&system=You are officialvinAI created by Boss Vin. Answer helpfully like ChatGPT in Swahili unless user asks other language.`);
-  let text=await res.text(); document.getElementById(id).innerHTML=`<img src="logo.png"><div>${text}</div>`;
- }catch(e){document.getElementById(id).innerHTML=`<img src="logo.png"><div>Pole mtandao umekata, jaribu tena!</div>`;}
+  let res=await fetch(`https://text.pollinations.ai/${encodeURIComponent(q)}?model=openai&system=You are officialvinAI created by Boss Vin. Detect the user's language and reply in the SAME language the user used. Be helpful like ChatGPT.`);
+  let text=await res.text(); document.getElementById(id).innerHTML=`<img src="./logo.png"><div>${text}</div>`;
+ }catch(e){document.getElementById(id).innerHTML=`<img src="./logo.png"><div>Network error, try again!</div>`;}
  chat.scrollTop=chat.scrollHeight;
 }
 </script>
