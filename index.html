@@ -13,33 +13,26 @@
 .user{background:#d32f2f;align-self:flex-end;border-bottom-right-radius:4px}
 .ai{background:#1e1e1e;align-self:flex-start;border-bottom-left-radius:4px}
 .msg img.gen{width:100%;border-radius:12px;margin-top:8px}
-.typing{opacity:.6;font-style:italic}
 #bar{display:flex;align-items:center;gap:8px;padding:10px;background:#141414;border-top:1px solid #222}
-.icon-btn{width:42px;height:42px;border-radius:50%;border:none;background:#222;color:#fff;font-size:20px;display:grid;place-items:center}
 #in{flex:1;padding:12px 16px;border-radius:24px;border:1px solid #333;background:#222;color:#fff;outline:none}
 #send{background:#d32f2f;color:#fff;border:none;padding:12px 20px;border-radius:24px;font-weight:bold}
 </style>
 </head>
 <body>
 <div id="header">
-<img src="logo.png" onerror="this.src='https://vincentnyerere4-coder.github.io/officialvinAI/logo.png'">
+<img src="logo.png">
 <div><b>officialvinAI</b><div style="font-size:11px;opacity:.6">All Languages + Real Images</div></div>
 </div>
-<div id="chat"><div class="msg ai">Welcome to officialvinAI! Ask anything, I will answer you right now.</div></div>
+<div id="chat"><div class="msg ai">Welcome to officialvinAI asking everything??</div></div>
 <div id="bar">
-<input type="file" id="fileIn" accept="image/*" hidden>
-<button class="icon-btn" onclick="document.getElementById('fileIn').click()">📎</button>
-<button class="icon-btn" id="micBtn" onclick="startVoice()">🎤</button>
 <input id="in" placeholder="Ask anything...">
 <button id="send" onclick="send()">SEND</button>
 </div>
 <script>
 const chat=document.getElementById('chat');const input=document.getElementById('in');
-function startVoice(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;let r=new SR();r.start();document.getElementById('micBtn').textContent='🔴';r.onresult=e=>{input.value=e.results[0][0].transcript;document.getElementById('micBtn').textContent='🎤';send();};r.onerror=()=>document.getElementById('micBtn').textContent='🎤';}
-function send(){let t=input.value.trim();if(!t)return;chat.innerHTML+=`<div class="msg user">${t}</div>`;input.value='';let l=t.toLowerCase();if(l.includes('chora')||l.includes('draw')||l.includes('picha')||l.includes('image')||l.includes('generate')){let p=t.replace(/chora|draw|picha ya|picha|image|generate/gi,'').trim();if(p.length<2)p=t;let u=`https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?width=768&height=768&nologo=true&seed=${Math.floor(Math.random()*9999)}`;chat.innerHTML+=`<div class="msg ai">Generating: <b>${p}</b>...<br><img class="gen" src="${u}"></div>`;chat.scrollTop=chat.scrollHeight;}else{askAI(t);}}
-async function askAI(q){let id='a'+Date.now();chat.innerHTML+=`<div class="msg ai typing" id="${id}">officialvinAI is typing...</div>`;chat.scrollTop=chat.scrollHeight;try{let prompt=`You are officialvinAI by Vincent Tanzania. Detect user language and answer in SAME language. Be helpful and concise. User: ${q}`;let res=await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);let txt=await res.text();document.getElementById(id).innerText=txt;document.getElementById(id).classList.remove('typing');}catch{document.getElementById(id).innerText="Network error Boss, please try again.";}chat.scrollTop=chat.scrollHeight;}
+function send(){let t=input.value.trim();if(!t)return;chat.innerHTML+=`<div class="msg user">${t}</div>`;input.value='';let l=t.toLowerCase();if(l.includes('chora')||l.includes('draw')||l.includes('picha')||l.includes('image')){let p=t.replace(/chora|draw|picha ya|picha|image/gi,'').trim();if(p.length<2)p=t;let u=`https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?width=768&height=768&nologo=true&seed=${Math.floor(Math.random()*9999)}`;chat.innerHTML+=`<div class="msg ai">Generating: <b>${p}</b>...<br><img class="gen" src="${u}"></div>`;}else{askAI(t);}chat.scrollTop=chat.scrollHeight;}
+async function askAI(q){let id='a'+Date.now();chat.innerHTML+=`<div class="msg ai" id="${id}">officialvinAI is typing...</div>`;chat.scrollTop=chat.scrollHeight;try{let res=await fetch(`https://text.pollinations.ai/${encodeURIComponent("You are officialvinAI. Answer in same language user used. User: "+q)}`);let txt=await res.text();document.getElementById(id).innerText=txt;}catch{document.getElementById(id).innerText="Network error, try again.";}chat.scrollTop=chat.scrollHeight;}
 input.addEventListener('keydown',e=>{if(e.key==='Enter')send();});
-document.getElementById('fileIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f);chat.innerHTML+=`<div class="msg user"><img style="width:180px;border-radius:12px" src="${u}"></div>`;askAI("Describe this image briefly");};
 </script>
 </body>
 </html>
